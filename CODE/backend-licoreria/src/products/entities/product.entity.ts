@@ -1,22 +1,70 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { 
+  Entity, 
+  Column, 
+  PrimaryGeneratedColumn, 
+  CreateDateColumn, 
+  UpdateDateColumn 
+} from 'typeorm';
 
-@Entity('productos') // Debe coincidir exactamente con el nombre en tu SQL
+@Entity('productos') //Nombre de la Tabla en SQL
 export class Product {
   @PrimaryGeneratedColumn()
   id_producto: number;
 
-  @Column()
+  @Column({ unique: true, length: 50, nullable: true })
+  codigo_barras: string;
+
+  @Column({ length: 200 })
   nombre: string;
 
-  @Column()
+  @Column({ length: 500, nullable: true })
+  descripcion: string;
+
+  @Column({ nullable: true })
+  id_categoria: number;
+
+  @Column({ nullable: true })
+  id_proveedor: number;
+
+  @Column({ length: 100, nullable: true })
   marca: string;
+
+  @Column({ length: 50, nullable: true })
+  tipo_bebida: string;
+
+  @Column('decimal', { precision: 5, scale: 2, nullable: true })
+  graduacion_alcoholica: number;
+
+  @Column({ nullable: true })
+  volumen_ml: number;
+
+  @Column({ length: 100, nullable: true })
+  pais_origen: string;
+
+  @Column('decimal', { precision: 10, scale: 2 })
+  precio_compra: number;
 
   @Column('decimal', { precision: 10, scale: 2 })
   precio_venta: number;
 
-  @Column()
+  @Column({ default: 0 })
   stock_actual: number;
 
-  @Column()
-  volumen_ml: number;
+  @Column({ default: 5 })
+  stock_minimo: number;
+
+  @Column({ default: 500 })
+  stock_maximo: number;
+
+  @Column({ length: 20, nullable: true })
+  unidad_medida: string;
+
+  @Column({ default: true })
+  activo: boolean;
+
+  @CreateDateColumn()
+  fecha_creacion: Date;
+
+  @UpdateDateColumn({ nullable: true })
+  fecha_actualizacion: Date;
 }
