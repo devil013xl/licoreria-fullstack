@@ -7,7 +7,7 @@ export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const requiredRoles = this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
+    const requiredRoles = this.reflector.getAllAndOverride<number[]>(ROLES_KEY, [
       context.getHandler(),
       context.getClass(),
     ]);
@@ -19,11 +19,11 @@ export class RolesGuard implements CanActivate {
     const { user } = context.switchToHttp().getRequest();
 
     // Debug para ver qué está pasando realmente
-    console.log('Usuario del Token:', user); 
-    console.log('Roles que pedimos:', requiredRoles);
+    //console.log('Usuario del Token:', user); 
+    //console.log('Roles que pedimos:', requiredRoles);
 
     // Verificamos que el usuario exista y tenga un rol
-    if (!user || !user.rol) {
+    if (!user || !user.id_rol) {
       return false; 
     }
 
@@ -33,7 +33,7 @@ export class RolesGuard implements CanActivate {
     const hasRole = requiredRoles.includes(user.id_rol);
 
     if (!hasRole) {
-       throw new ForbiddenException(`Tu rol [${user.rol}] no tiene permiso para esta acción. Se requiere: ${requiredRoles}`);
+       throw new ForbiddenException(`Tu rol [${user.id_rol}] no tiene permiso para esta acción. Se requiere: ${requiredRoles}`);
     }
 
     return hasRole;

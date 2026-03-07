@@ -17,7 +17,7 @@ export class ProductsController {
   ) {}
 
   @Get()
-  @Roles(Rol.ADMIN, Rol.VENDEDOR, Rol.ALMACENERO, Rol.CAJERO, Rol.CLIENTE, Rol.GERENTE, Rol.SUPERVISOR) //  pueden ver
+  @Roles(Rol.ADMIN, Rol.VENDEDOR, Rol.ALMACENERO, Rol.CAJERO, Rol.CLIENTE, Rol.SUPERVISOR) //  pueden ver
   async findAll() {
     return await this.productRepository.find({
       where: { activo: true },

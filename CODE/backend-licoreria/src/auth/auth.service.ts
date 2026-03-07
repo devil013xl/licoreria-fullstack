@@ -47,7 +47,7 @@ export class AuthService {
 
   const isMatch = await bcrypt.compare(passwordEnviada, passwordBD);
 
-  console.log('¿Coinciden?:', isMatch);
+  //console.log('¿Coinciden?:', isMatch);
 
   if (!isMatch) {
     throw new UnauthorizedException('Contraseña incorrecta');
