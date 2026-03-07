@@ -9,6 +9,8 @@ import { CategoriesModule } from './categories/categories.module';
 import { User } from './users/entities/user.entity';
 import { Role } from './users/entities/role.entity';
 import { Employee } from './users/entities/employee.entity';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { Employee } from './users/entities/employee.entity';
     }),
     ProductsModule, // 2. Agrégalo aquí a la lista de imports
     CategoriesModule, // <-- El módulo aquí
+    UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
