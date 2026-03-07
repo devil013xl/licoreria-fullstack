@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
@@ -12,11 +13,11 @@ import { User } from '../users/entities/user.entity';
     PassportModule,
     JwtModule.register({
       global: true, // <-- AÑADE ESTO para que el servicio esté disponible en todo el módulo
-      secret: 'CLAVE_SECRETA_CUALQUIERA', 
+      secret: 'CLAVE_SECRETA_SUPER_SEGURA', 
       signOptions: { expiresIn: '8h' },
     }),
   ],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
   exports: [AuthService], // Añade esto por si acaso
 })
