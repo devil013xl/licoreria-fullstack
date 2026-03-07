@@ -28,7 +28,9 @@ export class RolesGuard implements CanActivate {
     }
 
     // Comparamos asegurando que no haya espacios y todo esté en Mayúsculas
-    const hasRole = requiredRoles.some((role) => user.rol.trim().toUpperCase() === role.toUpperCase());
+    //const hasRole = requiredRoles.some((role) => user.rol.trim().toUpperCase() === role.toUpperCase());
+    // user.rol debe ser el ID (número) que viene del JWT
+    const hasRole = requiredRoles.includes(user.id_rol);
 
     if (!hasRole) {
        throw new ForbiddenException(`Tu rol [${user.rol}] no tiene permiso para esta acción. Se requiere: ${requiredRoles}`);

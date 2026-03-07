@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -33,8 +34,16 @@ export class AuthService {
     throw new InternalServerErrorException('Error de configuración en el servidor');
   }
 
+  /*
   // 4. Ahora sí es seguro usar .trim()
   if (user.password_hash.trim() !== pass.trim()) {
+    throw new UnauthorizedException('Contraseña incorrecta');
+  }*/
+
+  // 4. Comparamos la contraseña usando bcrypt
+  const isMatch = await bcrypt.compare(pass.trim(), user.password_hash.trim());
+
+  if (!isMatch) {
     throw new UnauthorizedException('Contraseña incorrecta');
   }
 
