@@ -32,6 +32,7 @@ export class UsersService {
     return await this.userRepository.save(newUser);
   }*/
  async create(createUserDto: any) {
+  const { password_hash, ...userData } = createUserDto;
   const queryRunner = this.dataSource.createQueryRunner();
   await queryRunner.connect();
   await queryRunner.startTransaction();
@@ -61,6 +62,12 @@ export class UsersService {
     const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(createUserDto.password_hash, salt);
 
+    /*
+    const newUser = this.userRepository.create({
+      ...userData,
+      password_hash: hashed // <--- Aquí guardamos el HASH largo ($2b$...)
+    });*/
+
     // 3. Crear el Usuario vinculado al id_empleado recién generado
     const nuevoUsuario = queryRunner.manager.create(User, {
       username: createUserDto.username,
@@ -85,5 +92,15 @@ export class UsersService {
     // Liberamos la conexión
     await queryRunner.release();
   }
+}
+// Cambia 'User | undefined' por 'User | null'
+async findByUsername(username: string): Promise<User | null> {
+  return await this.userRepository.findOne({
+    where: { 
+      username: username, 
+      activo: true 
+    },
+    relations: ['rol'], 
+  });
 }
 }

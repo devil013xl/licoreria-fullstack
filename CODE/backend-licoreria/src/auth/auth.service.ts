@@ -41,14 +41,26 @@ export class AuthService {
   }*/
 
   // 4. Comparamos la contraseña usando bcrypt
-  const isMatch = await bcrypt.compare(pass.trim(), user.password_hash.trim());
+  //const isMatch = await bcrypt.compare(pass.trim(), user.password_hash.trim());
+  const passwordEnviada = pass ? pass.trim() : '';
+  const passwordBD = user.password_hash ? user.password_hash.trim() : '';
+
+  const isMatch = await bcrypt.compare(passwordEnviada, passwordBD);
+
+  console.log('¿Coinciden?:', isMatch);
 
   if (!isMatch) {
     throw new UnauthorizedException('Contraseña incorrecta');
   }
 
   // 5. Generación del Token
-  const payload = { sub: user.id_usuario, username: user.username, rol: user.rol?.nombre };
+  //const payload = { sub: user.id_usuario, username: user.username, rol: user.rol?.nombre };
+  const payload = { 
+    sub: user.id_usuario, 
+    username: user.username, 
+    id_rol: user.rol?.id_rol, // <--- ¡Añade el ID numérico para el RolesGuard!
+    rol_nombre: user.rol?.nombre 
+  };
 
   return {
     access_token: await this.jwtService.signAsync(payload),
