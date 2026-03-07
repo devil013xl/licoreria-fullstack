@@ -6,6 +6,9 @@ import { ProductsModule } from './products/products.module'; // 1. Importa el m√
 import { Product } from './products/entities/product.entity';
 import { Category } from './categories/entities/category.entity';
 import { CategoriesModule } from './categories/categories.module';
+import { User } from './users/entities/user.entity';
+import { Role } from './users/entities/role.entity';
+import { Employee } from './users/entities/employee.entity';
 
 @Module({
   imports: [
@@ -16,7 +19,7 @@ import { CategoriesModule } from './categories/categories.module';
       username: 'sa',
       password: '1234',
       database: 'Licoreria',
-      entities: [Product, Category],
+      entities: [Product, Category, User, Role, Employee],
       synchronize: false,
       options: {
         encrypt: false,
