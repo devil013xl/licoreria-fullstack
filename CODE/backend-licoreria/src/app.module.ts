@@ -4,6 +4,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProductsModule } from './products/products.module'; // 1. Importa el módulo
 import { Product } from './products/entities/product.entity';
+import { Category } from './categories/entities/category.entity';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -14,7 +16,7 @@ import { Product } from './products/entities/product.entity';
       username: 'sa',
       password: '1234',
       database: 'Licoreria',
-      entities: [Product],
+      entities: [Product, Category],
       synchronize: false,
       options: {
         encrypt: false,
@@ -22,6 +24,7 @@ import { Product } from './products/entities/product.entity';
       },
     }),
     ProductsModule, // 2. Agrégalo aquí a la lista de imports
+    CategoriesModule, // <-- El módulo aquí
   ],
   controllers: [AppController],
   providers: [AppService],

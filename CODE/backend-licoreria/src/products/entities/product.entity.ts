@@ -3,8 +3,12 @@ import {
   Column, 
   PrimaryGeneratedColumn, 
   CreateDateColumn, 
-  UpdateDateColumn 
+  UpdateDateColumn, 
+  ManyToOne,
+  JoinColumn
 } from 'typeorm';
+
+import { Category } from 'src/categories/entities/category.entity';
 
 @Entity('productos') //Nombre de la Tabla en SQL
 export class Product {
@@ -20,8 +24,12 @@ export class Product {
   @Column({ length: 500, nullable: true })
   descripcion: string;
 
-  @Column({ nullable: true })
-  id_categoria: number;
+  //@Column({ nullable: true })
+  //id_categoria: number;
+  // REEMPLAZAMOS el Column de id_categoria por esto:
+  @ManyToOne(() => Category, (category) => category.productos)
+  @JoinColumn({ name: 'id_categoria' }) // Indica que esta es la columna FK en SQL
+  categoria: Category;
 
   @Column({ nullable: true })
   id_proveedor: number;

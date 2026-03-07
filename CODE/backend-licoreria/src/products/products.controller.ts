@@ -15,6 +15,7 @@ export class ProductsController {
   async findAll() {
     return await this.productRepository.find({
       where: { activo: true },
+      relations: ['categoria'], // <--- ESTA ES LA MAGIA
       order: { nombre: 'ASC' }
     });
   }
