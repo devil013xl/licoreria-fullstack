@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn } from 'typeorm';
 import { Product } from '../../products/entities/product.entity';
 
-@Entity('categorias')
+//@Entity('categorias')
+@Entity({ name: 'categorias' })
 export class Category {
   @PrimaryGeneratedColumn()
   id_categoria: number;
@@ -13,7 +14,11 @@ export class Category {
   descripcion: string;
 
   @Column({ default: true })
-  activo: boolean;
+  //activo: boolean;
+  activo: number;
+
+  @CreateDateColumn()
+  fecha_creacion: Date;
 
   // Relación: Una categoría tiene muchos productos
   @OneToMany(() => Product, (product) => product.categoria)
